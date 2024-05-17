@@ -247,6 +247,7 @@ def add_raamat_aken():
         add_raamat(conn, *raamat_andmed)
         raamat_andmed_frame.destroy()
     
+
     add_btn = Button(raamat_andmed_frame, text="Lisa raamat", command=add_raamat_andmebaasi)
     add_btn.grid(row=5, column=0, columnspan=2)
 
@@ -283,9 +284,14 @@ def delete_raamat(conn, pealkiri):
 def delete_raamat_autorNimi(conn, autor_nimi):
     try:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM Raamatud WHERE autor_nimi=?", (autor_nimi,))
-        conn.commit()
-        messagebox.showinfo("Autor nimi raamatud on kustutatud","Autor nimi raamatud on kustutatud")
+        cursor.execute("SELECT autor_id FROM Autorid WHERE autor_nimi=?", (autor_nimi,))
+        autor_id = cursor.fetchone()
+        if autor_id:
+            cursor.execute("DELETE FROM Raamatud WHERE autor_id=?", (autor_id[0],))
+            conn.commit()
+            messagebox.showinfo("Autor nimi raamatud on kustutatud", "Autor nimi raamatud on kustutatud")
+        else:
+            messagebox.showinfo("Autor ei leitud", "Autor nimega ei leitud")
     except Exception as e:
         messagebox.showerror("Viga", f"Viga {e}")
 
