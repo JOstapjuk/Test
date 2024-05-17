@@ -5,6 +5,7 @@ from sqlite3 import *
 from sqlite3 import Error
 from tkinter import ttk, messagebox
 
+###############
 def create_connect(db_path):
     try:
         connection = connect(db_path)
@@ -13,7 +14,7 @@ def create_connect(db_path):
     except Error as e:
         print(f"Viga ühenduse loomisel: {e}")
         return None
-
+###############
 def execute_query(connection, query):
     if connection:
         try:
@@ -26,7 +27,7 @@ def execute_query(connection, query):
     else:
         print("Ühendus ei ole olemas.")
 
-
+##################
 def execute_read_query(connection, query):
     if connection:
         cursor = connection.cursor()
@@ -119,7 +120,7 @@ def insert_tables(conn):
     messagebox.showinfo("Tabelid on täidetud!", "Tabelid on täidetud!")
 
 
-
+###############
 db_path = "data.db"
 conn = create_connect(db_path)
 
@@ -130,7 +131,7 @@ aken ["bg"]="#cfbaf0"
 
 
 def table_autorid(conn):
-    aken_autorid = Toplevel()
+    aken_autorid = Tk()
     aken_autorid.title("Autorite tabel")
     tree = ttk.Treeview(aken_autorid, column=("autor_id", "autor_nimi", "sünnikuupäev"), show="headings")
     tree.column("autor_id", anchor=CENTER)
@@ -205,6 +206,7 @@ def add_raamat(conn, pealkiri, väljaandmise_kuupäev, autor_id, zanr_id):
     except Exception as e:
         messagebox.showerror("Viga", f"Viga tabeli sordimisel: {e}")
 
+########################
 def add_raamat_aken():
     raamat_andmed_frame = Toplevel(aken)
     raamat_andmed_frame.title("Lisa raamat")
@@ -280,7 +282,7 @@ def delete_raamat(conn, pealkiri):
     except Exception as e:
         messagebox.showerror("Viga", f"Viga {e}")
 
-
+################
 def delete_raamat_autorNimi(conn, autor_nimi):
     try:
         cursor = conn.cursor()
